@@ -33,8 +33,8 @@ export default {
       'SET_USD_PRICE'
     ]),
     set_usd_price() {
-      if(this.usd < this.rules.valMin) return;
-      if(this.usd > this.rules.valMax) return;
+      if(this.usd < 20) return;
+      if(this.usd > 80) return;
 
       this.SET_USD_PRICE(this.usd)
     }
