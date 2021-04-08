@@ -11,7 +11,7 @@
     <v-expansion-panel-content>
       <div class="category_products">
 
-        <Product v-for="product in items" :product="product" :group="product.G" :key="product.N" />
+        <Product v-for="product in group_prdcts" :product="product" :key="product.pr_name"/>
 
       </div>
     </v-expansion-panel-content>
@@ -28,10 +28,12 @@ export default {
     Product
   },
   data: () => ({
-    group_name: null
+    group_name: null,
+    group_prdcts: null
   }),
   mounted() {
-      this.group_name = this.$store.getters.get_group_name_by_id(this.$props.group);
+    this.group_name = this.$props.group;
+    this.group_prdcts = this.$props.items;
   }
 }
 </script>

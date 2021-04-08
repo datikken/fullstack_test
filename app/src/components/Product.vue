@@ -1,28 +1,59 @@
 <template>
   <div class="product">
     <div class="product_content">
-      <p class="product_name">{{ prName }}</p>
-      <p class="product_amount ml-1">({{ prAmount }}): </p>
-      <p class="product_price ml-2">{{ prPrice }}</p>
+
+      <div class="product_info">
+        <p class="product_name">{{ prName }}</p>
+        <p class="product_amount ml-1">({{ prAmount }}): </p>
+        <p class="product_price ml-2">{{ prPrice }} руб</p>
+      </div>
+
+      <div class="product_cta ml-5" @click="toCart()">
+        <v-icon>{{ svgPath }}</v-icon>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script>
+import { mdiCart } from '@mdi/js'
+import {mapActions, mapGetters, mapState} from 'vuex'
+
 export default {
   name: "Product",
-  props: ['product', 'group'],
+  props: ['product'],
   data: () => ({
     prName: null,
     prAmount: null,
-    prPrice: 0
+    prPrice: 0,
+    svgPath: mdiCart
   }),
+  computed: {
+    ...mapState([
+        'usd'
+    ]),
+    ...mapGetters([
+      'usd_to_rub'
+    ])
+  },
+  methods: {
+    ...mapActions([
+        'ADD_PRODUCT_TO_CART'
+    ]),
+    calc_price(price) {
+      return parseFloat(this.usd_to_rub(price).toFixed(2));
+    }
+  },
+  watch: {
+    usd() {
+      this.prPrice = this.calc_price(this.$props.product.pr_price);
+    }
+  },
   mounted() {
-    this.namings = this.$store.getters.get_product_namings_by_group_and_id(this.$props.group, this.$props.product.T);
-    this.prPrice = parseFloat(this.$store.getters.usd_to_rub(this.$props.product.C).toFixed(2));
-
-    this.prName = this.namings.N;
-    this.prAmount = this.$props.product.P;
+    this.prName = this.$props.product.pr_name;
+    this.prPrice = this.calc_price(this.$props.product.pr_price);
+    this.prAmount = this.$props.product.pr_amount;
   }
 }
 </script>
@@ -31,8 +62,10 @@ export default {
 .product {
   flex: 50%;
 }
-
-.product_content {
+.product_content, .product_info {
   display: flex;
+}
+.product_cta {
+  cursor: pointer;
 }
 </style>
