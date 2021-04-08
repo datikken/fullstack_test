@@ -5,7 +5,7 @@
       <div class="product_info">
         <p class="product_name">{{ prName }}</p>
         <p class="product_amount ml-1">({{ prAmount }}): </p>
-        <p class="product_price ml-2">{{ prPrice }} руб</p>
+        <p class="product_price ml-2" :class="{ border_green: isFailed, border_red: isRaised }">{{ prPrice }} руб</p>
       </div>
 
       <div class="product_cta ml-5" @click="toCart()">
@@ -27,7 +27,9 @@ export default {
     prName: null,
     prAmount: null,
     prPrice: 0,
-    svgPath: mdiCart
+    svgPath: mdiCart,
+    isRaised: false,
+    isFailed: false
   }),
   computed: {
     ...mapState([
@@ -46,8 +48,16 @@ export default {
     }
   },
   watch: {
-    usd() {
+    usd(newVal, oldVal) {
       this.prPrice = this.calc_price(this.$props.product.pr_price);
+
+      if(newVal >= oldVal) {
+        this.isRaised = true
+        this.isFailed = false
+      } else {
+        this.isFailed = true
+        this.isRaised = false
+      }
     }
   },
   mounted() {
@@ -67,5 +77,11 @@ export default {
 }
 .product_cta {
   cursor: pointer;
+}
+.border_red {
+  border-bottom: 2px solid red;
+}
+.border_green {
+  border-bottom: 2px solid green;
 }
 </style>
