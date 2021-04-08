@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-      v-model="usd" @keyup.enter="set_usd_price()"
+      v-model="usd" @keyup.enter="set_usd_price"
       :rules="[rules.required, rules.valMin, rules.valMax]"
       class="mt-5"
       label="Type in USD price Mr. Elon"
@@ -16,6 +16,7 @@ export default {
   name: "Currency",
   data: () => ({
     usd: null,
+    npt_err: false,
     rules: {
       required: value => !!value || 'Required.',
       valMin: value => value >= 20 || 'USD should be above $20',
@@ -32,6 +33,9 @@ export default {
       'SET_USD_PRICE'
     ]),
     set_usd_price() {
+      if(this.usd < this.rules.valMin) return;
+      if(this.usd > this.rules.valMax) return;
+
       this.SET_USD_PRICE(this.usd)
     }
   },
