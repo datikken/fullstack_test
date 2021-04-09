@@ -1,13 +1,13 @@
 <template>
-  <div class="cartItem">
+  <div class="cartItem" v-if="cartItem">
     <div class="cartItem_title">
-
+      {{ cartItem.pr_name }}
     </div>
     <div class="cartItem_amount">
-
+      {{ cartItem.pr_amount }}
     </div>
     <div class="cartItem_price">
-
+      {{ cartItem.pr_price }}
     </div>
     <div class="cartItem_drop">
       <v-icon>
@@ -28,11 +28,14 @@ export default {
     cartItem: null
   }),
   mounted() {
-    console.log(this.$props.product,'cartItem')
+    this.cartItem = this.$props.product;
   }
 }
 </script>
 
 <style scoped>
-
+.cartItem {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr .5fr;
+}
 </style>

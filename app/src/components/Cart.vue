@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <CartItem v-for="product in shoppingCart" :product="product" :key="product.T" />
+    <CartItem v-for="(product, ind) in shoppingCart" :product="product" :key="ind" />
 
   </div>
 </template>
@@ -41,14 +41,14 @@ export default {
     cart(newVal, oldVal) {
       this.shoppingCart = newVal ? newVal : oldVal;
 
-      console.warn(newVal, oldVal, 'motherfuck you niggaz');
+      // console.warn(newVal, oldVal, 'motherfuck you niggaz');
     }
   }
 }
 </script>
 <style>
   .cart_head {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr .5fr;
   }
 </style>

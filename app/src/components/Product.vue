@@ -27,6 +27,8 @@ export default {
     prName: null,
     prAmount: null,
     prPrice: 0,
+    prId: null,
+    prGroup: null,
     svgPath: mdiCart,
     isRaised: false,
     isFailed: false
@@ -45,6 +47,10 @@ export default {
     ]),
     calc_price(price) {
       return parseFloat(this.usd_to_rub(price).toFixed(2));
+    },
+    toCart() {
+      console.log(this.$props.product, 'before add')
+      this.ADD_PRODUCT_TO_CART(this.$props.product);
     }
   },
   watch: {
@@ -64,6 +70,8 @@ export default {
     this.prName = this.$props.product.pr_name;
     this.prPrice = this.calc_price(this.$props.product.pr_price);
     this.prAmount = this.$props.product.pr_amount;
+    this.prGroup = this.$props.product.pr_group;
+    this.prId = this.$props.product.pr_id;
   }
 }
 </script>
